@@ -1,0 +1,84 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AirTech — каталог 30 буклетов (3D)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600;900&family=Inter:wght@500;700;800&display=swap');
+:root{--bg:#0A0D14;--ink:#EDEFF5;--mut:#8D95AB;--lime:#C6FF3D}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--ink);font-family:Inter,sans-serif}
+body:before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(900px 500px at 15% 0%,rgba(43,123,255,.25),transparent 70%),radial-gradient(700px 500px at 90% 90%,rgba(255,79,134,.2),transparent 70%)}
+header{padding:22px 28px 6px;position:relative}
+header h1{font:900 26px/1 Unbounded;letter-spacing:-.03em}header p{color:var(--mut);font-size:13px;margin-top:8px}
+.filters{display:flex;gap:8px;padding:12px 28px;flex-wrap:wrap;position:relative}
+.f{cursor:pointer;border:1.5px solid #2a3148;background:#121624;color:var(--ink);border-radius:30px;padding:8px 15px;font:700 12px Inter}.f.on{background:var(--lime);color:#000;border-color:var(--lime)}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px;padding:10px 28px 40px;position:relative}
+.c{cursor:pointer;border-radius:14px;overflow:hidden;background:#121624;border:1.5px solid #222a42;transition:transform .25s,border-color .25s}
+.c:hover{transform:translateY(-4px) rotate(-.6deg);border-color:var(--lime)}
+.c .im{height:250px;background-size:cover;background-position:center top}
+.c .t{padding:10px 12px}.c b{font:800 13px Inter;display:block}.c small{color:var(--mut);font-size:11px}
+#view{position:fixed;inset:0;z-index:50;background:var(--bg);display:none}
+#view:before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(900px 500px at 20% 15%,rgba(43,123,255,.28),transparent 70%),radial-gradient(700px 500px at 85% 85%,rgba(255,79,134,.22),transparent 70%)}
+#vt{position:absolute;left:20px;top:16px;z-index:5;max-width:340px}#vt h2{font:900 19px/1.05 Unbounded;letter-spacing:-.03em}#vt p{font-size:12.5px;color:var(--mut);margin-top:8px;line-height:1.5}
+#x{position:absolute;right:18px;top:14px;z-index:6;width:44px;height:44px;border-radius:50%;border:2px solid #000;background:#fff;font:900 18px Inter;cursor:pointer;box-shadow:3px 3px 0 #000}
+#hint{position:absolute;right:76px;top:20px;z-index:5;font-size:11.5px;color:var(--mut);text-align:right;line-height:1.6}
+#stage{position:absolute;inset:0;perspective:2400px;cursor:grab;touch-action:none;overflow:hidden}#stage.d{cursor:grabbing}
+#rot,#model{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d}
+#rot{transition:transform .9s cubic-bezier(.7,0,.2,1)}#rot.nt{transition:none}
+.pl{position:absolute;transform-style:preserve-3d}
+.fr,.bk{position:absolute;inset:0;background-size:100% 100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;outline:1px solid rgba(0,0,0,.3)}.bk{transform:rotateY(180deg)}
+.hz{position:absolute;transform-style:preserve-3d;transition:transform 1.15s cubic-bezier(.6,0,.2,1)}
+#bar{position:absolute;left:50%;transform:translateX(-50%);bottom:18px;z-index:6;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:96vw}
+.b{cursor:pointer;border:2px solid #000;background:var(--lime);color:#000;border-radius:40px;padding:11px 20px;font:900 13px Unbounded;box-shadow:4px 4px 0 #000;letter-spacing:-.02em}.b.g{background:#fff}.b:active{transform:translate(3px,3px);box-shadow:1px 1px 0 #000}
+</style></head><body>
+<header><h1>30 буклетов AirTech HVAC</h1><p>Нажмите на любой — откроется в 3D: можно открывать, закрывать, листать и вращать.</p></header>
+<div class="filters" id="fl"></div><div id="grid"></div>
+<div id="view"><div id="vt"><h2></h2><p></p></div><div id="hint">тяни — вращать<br>колесо — приближать<br>двойной клик — сброс</div><button id="x">✕</button><div id="stage"><div id="rot"><div id="model"></div></div></div><div id="bar"></div></div>
+<script>
+const DATA=[{"n": "01", "name": "Navy Classic", "fmt": "tri"}, {"n": "02", "name": "Neon Grid", "fmt": "tri"}, {"n": "03", "name": "Pop Brutal", "fmt": "tri"}, {"n": "04", "name": "Ice Glass", "fmt": "tri"}, {"n": "05", "name": "Mono Red", "fmt": "tri"}, {"n": "06", "name": "Forest Serif", "fmt": "tri"}, {"n": "07", "name": "Violet Night", "fmt": "tri"}, {"n": "08", "name": "Sport Lime", "fmt": "tri"}, {"n": "09", "name": "Coral Soft", "fmt": "tri"}, {"n": "10", "name": "Steel Amber", "fmt": "tri"}, {"n": "11", "name": "Sea Teal", "fmt": "tri"}, {"n": "12", "name": "Rose Luxe", "fmt": "tri"}, {"n": "13", "name": "Riso Blue-Pink", "fmt": "zine"}, {"n": "14", "name": "Brutal Yellow", "fmt": "zine"}, {"n": "15", "name": "Cyber Neon", "fmt": "zine"}, {"n": "16", "name": "Mint Pastel", "fmt": "zine"}, {"n": "17", "name": "Sport Red", "fmt": "zine"}, {"n": "18", "name": "Swiss Blue", "fmt": "zine"}, {"n": "19", "name": "Sunset", "fmt": "zine"}, {"n": "20", "name": "Forest Camp", "fmt": "zine"}, {"n": "21", "name": "Terminal", "fmt": "zine"}, {"n": "22", "name": "Candy", "fmt": "zine"}, {"n": "23", "name": "Concrete", "fmt": "zine"}, {"n": "24", "name": "Cinema Amber", "fmt": "gate"}, {"n": "25", "name": "Navy Gold", "fmt": "gate"}, {"n": "26", "name": "Hot Magenta", "fmt": "gate"}, {"n": "27", "name": "Arctic", "fmt": "gate"}, {"n": "28", "name": "Volt", "fmt": "gate"}, {"n": "29", "name": "Terra Sun", "fmt": "gate"}, {"n": "30", "name": "Midnight Mint", "fmt": "gate"}];
+const MM=3,$=s=>document.querySelector(s);
+const el=(t,c,p,st)=>{const e=document.createElement(t);if(c)e.className=c;if(st)Object.assign(e.style,st);if(p)p.appendChild(e);return e};
+const tx=k=>`url(tex/${k}.jpg)`;
+function plate(w,h,f,b,p,st){const e=el('div','pl',p,Object.assign({width:w+'px',height:h+'px'},st||{}));el('div','fr',e,{backgroundImage:tx(f)});if(b)el('div','bk',e,{backgroundImage:tx(b)});return e}
+const hinge=(p,st)=>el('div','hz',p,st);
+const model=$('#model'),rot=$('#rot'),stage=$('#stage'),bar=$('#bar');
+let rx=-14,ry=-18,zoom=1,drag=false,lx,ly,auto=false,home={rx:-14,ry:-18},base=1;
+const fz=()=>Math.min(1.3,innerHeight/760,innerWidth*.9/(891*base));
+function viewup(){rot.style.transform=`scale(${zoom}) rotateX(${rx}deg) rotateY(${ry}deg)`}
+stage.addEventListener('pointerdown',e=>{drag=true;lx=e.clientX;ly=e.clientY;rot.classList.add('nt');stage.classList.add('d');stage.setPointerCapture(e.pointerId)});
+stage.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-lx)*.45;rx=Math.max(-90,Math.min(90,rx-(e.clientY-ly)*.45));lx=e.clientX;ly=e.clientY;viewup()});
+const up=()=>{drag=false;rot.classList.remove('nt');stage.classList.remove('d')};stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);
+stage.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(.3,Math.min(3,zoom*(e.deltaY<0?1.1:.9)));viewup()},{passive:false});
+stage.addEventListener('dblclick',()=>{rx=home.rx;ry=home.ry;zoom=base*fz();viewup()});
+setInterval(()=>{if(auto&&!drag){ry+=.5;rot.classList.add('nt');viewup()}},30);
+function btns(l){bar.innerHTML='';l.forEach(([t,f,g])=>{const b=el('button','b'+(g?' g':''),bar);b.textContent=t;b.onclick=()=>f(b)})}
+const note=t=>$('#vt p').textContent=t;
+function zine(id){const W=74.25*MM,H=105*MM;let p=0,flat=false;const lv=[];const book=el('div','pl',model,{width:'0',height:'0'});
+ [[1,2],[3,4],[5,6],[7,8]].forEach(([a,b])=>{const h=hinge(book,{left:0,top:-H/2+'px',width:W+'px',height:H+'px',transformOrigin:'0 50%'});plate(W,H,id+'_p'+a,id+'_p'+b,h,{left:0,top:0});lv.push(h)});
+ const sheet=el('div','pl',model,{width:297*MM+'px',height:210*MM+'px',left:-297*MM/2+'px',top:-210*MM/2+'px',display:'none'});el('div','fr',sheet,{backgroundImage:tx(id+'_sheet')});
+ function set(){lv.forEach((h,i)=>{const f=i<p;h.style.transform=`translateZ(${(f?i:3-i)*1.2}px) rotateY(${f?-180:0}deg)`});book.style.transform=`translateX(${p==0?-W/2:p==4?W/2:0}px)`;book.style.transition='transform 1s';book.style.display=flat?'none':'';sheet.style.display=flat?'':'none';
+  note(flat?'Лист до складывания: режем по красной линии, складываем «книжкой».':['Обложка','Разворот 2–3','Разворот 4–5','Разворот 6–7','Задняя обложка'][p])}
+ lv.forEach((h,i)=>h.addEventListener('click',()=>{if(flat)return;p=i<p?i:i+1;set()}));
+ btns([['← Назад',()=>{flat=false;p=Math.max(0,p-1);set()},1],['Листать →',()=>{flat=false;p=Math.min(4,p+1);set()}],['Плоский лист',b=>{flat=!flat;b.textContent=flat?'Вернуть книжку':'Плоский лист';set()},1]]);set();home={rx:-24,ry:-10};base=1.1}
+function tri(id){const W=99*MM,H=210*MM;let o=false;
+ const bs=plate(W,H,id+'_in1',id+'_out1',model,{left:-W/2+'px',top:-H/2+'px'});
+ const r=hinge(bs,{left:W+'px',top:0,width:W+'px',height:H+'px',transformOrigin:'0 50%'});plate(W,H,id+'_in2',id+'_out0',r,{left:0,top:0});
+ const l=hinge(bs,{left:-W+'px',top:0,width:W+'px',height:H+'px',transformOrigin:'100% 50%'});plate(W,H,id+'_in0',id+'_out2',l,{left:0,top:0});
+ function set(){r.style.transform=o?'none':'translateZ(3px) rotateY(-180deg)';l.style.transform=o?'none':'translateZ(7px) rotateY(180deg)';r.style.transitionDelay=o?'.55s':'0s';l.style.transitionDelay=o?'0s':'.6s';note(o?'Развёрнут: три внутренние панели.':'Сложен: видна обложка. Нажмите «Открыть».')}
+ set();btns([['Открыть',b=>{o=!o;b.textContent=o?'Закрыть':'Открыть';set()}],['Обратная сторона',()=>{ry+=180;viewup()},1]]);home={rx:-6,ry:-10};base=.82}
+function gate(id){const W=74.25*MM,H=210*MM;let o=false;
+ const bs=plate(W*2,H,id+'_spf',id+'_spb',model,{left:-W+'px',top:-H/2+'px'});
+ const a=hinge(bs,{left:-W+'px',top:0,width:W+'px',height:H+'px',transformOrigin:'100% 50%'});plate(W,H,id+'_p0',id+'_q3',a,{left:0,top:0});
+ const d=hinge(bs,{left:2*W+'px',top:0,width:W+'px',height:H+'px',transformOrigin:'0 50%'});plate(W,H,id+'_p3',id+'_q0',d,{left:0,top:0});
+ function set(){a.style.transform=o?'none':'translateZ(3px) rotateY(180deg)';d.style.transform=o?'none':'translateZ(3px) rotateY(-180deg)';note(o?'Створки открыты: большой разворот.':'Створки закрыты: обложка. Нажмите «Открыть створки».')}
+ set();btns([['Открыть створки',b=>{o=!o;b.textContent=o?'Закрыть створки':'Открыть створки';set()}],['Обратная сторона',()=>{ry+=180;viewup()},1]]);home={rx:-6,ry:-10};base=.85}
+const FN={zine,tri,gate},TN={zine:'Зин-8 · из одного листа',tri:'Тройной буклет',gate:'Гейтфолд · створки'};
+function openV(d){model.innerHTML='';auto=false;$('#view').style.display='block';$('#vt h2').textContent=d.n+' · '+d.name;
+ FN[d.fmt](d.n);rx=home.rx;ry=home.ry;zoom=base*fz();
+ const au=el('button','b g',bar);au.textContent='Авто-вращение';au.onclick=()=>{auto=!auto;au.textContent=auto?'Стоп':'Авто-вращение'};
+ const rs=el('button','b g',bar);rs.textContent='Сбросить вид';rs.onclick=()=>{rx=home.rx;ry=home.ry;zoom=base*fz();auto=false;viewup()};viewup()}
+$('#x').onclick=()=>{$('#view').style.display='none'};
+addEventListener('keydown',e=>{if(e.key=='Escape')$('#x').click()});
+let flt='all';const fl=$('#fl');
+[['all','Все 30'],['tri','Тройные'],['zine','Зины-8'],['gate','Гейтфолды']].forEach(([k,t])=>{const b=el('button','f'+(k=='all'?' on':''),fl);b.textContent=t;b.onclick=()=>{flt=k;[...fl.children].forEach(x=>x.classList.toggle('on',x==b));draw()}});
+function draw(){const g=$('#grid');g.innerHTML='';DATA.filter(d=>flt=='all'||d.fmt==flt).forEach(d=>{const c=el('div','c',g);el('div','im',c,{backgroundImage:`url(tex/${d.n}_thumb.jpg)`});const t=el('div','t',c);t.innerHTML=`<b>${d.n} · ${d.name}</b><small>${TN[d.fmt]}</small>`;c.onclick=()=>openV(d)})}
+draw();
+</script></body></html>
